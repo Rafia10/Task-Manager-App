@@ -62,7 +62,7 @@ async function submitTask() {
 
 <template>
     <div>
-        <h3 class="text-3xl font-semibold text-gray-700">
+        <h3 class="text-3xl font-medium text-gray-700">
             Add Task
         </h3>
 
@@ -103,7 +103,7 @@ async function submitTask() {
                                     class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                                     v-model="task.priority">
                                     <option value="" disabled selected>Select Priority</option>
-                                    <option v-for="res in priorities" :key="res._id" :value="res._id">{{ res.value }}
+                                    <option v-for="res in priorities" :key="res.id" :value="res.value">{{ res.value }}
                                     </option>
                                 </select>
                             </div>
@@ -119,7 +119,7 @@ async function submitTask() {
                                     class="w-full mt-2 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                                     v-model="task.status">
                                     <option value="" disabled selected>Select Status</option>
-                                    <option v-for="res in statuses" :key="res._id" :value="res._id">{{ res.value }}
+                                    <option v-for="res in statuses" :key="res.id" :value="res.value">{{ res.value }}
                                     </option>
                                 </select>
                             </div>

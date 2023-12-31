@@ -21,7 +21,7 @@ onMounted(async () => {
 
 <template>
     <div>
-        <h3 class="text-3xl font-semibold text-gray-700">
+        <h3 class="text-3xl font-medium text-gray-700">
             View Task
         </h3>
         <div class="mt-8">

@@ -59,13 +59,14 @@ export async function userLogin(data:IUserData) {
   }
 }
 
-export async function getTasksData() {
+export async function getTasksData(page=1,limit=2) {
   try {
     const token=localStorage.getItem('token')
     if(token){
-      const tasks = await api.get('task/list-tasks',{headers:{
+      const tasks = await api.get(`task/list-tasks?page=${page}&limit=${limit}`,{headers:{
        Authorization:`Bearer ${token}`
       }})
+      console.log(tasks.data.result)
       return tasks.data?.result
     }
 
@@ -159,7 +160,6 @@ export async function editTask(id:any,data:any) {
       const task = await api.patch(`task/update-task/${id}`,data,{headers:{
         Authorization:`Bearer ${token}`
        }})
-       console.log('!!!!!!!!!1',task)
       return task.data.data
     }
   }
