@@ -78,8 +78,7 @@ export const viewTask = async (req, res) => {
 };
 
 export const listTask = async (req, res) => {
-    const { page = 1, limit = 10 } = req.query;
-    const skip = (page - 1) * limit;
+    const { page = 1, limit = 2 } = req.query;
   try {
     const tasks = await Task.aggregate(
       [
@@ -105,7 +104,6 @@ export const listTask = async (req, res) => {
         $unwind:"$userInfo"
     },
     
-    { $skip: skip },
     { $limit: parseInt(limit) }
 ])
    const totalDocs = await Task.countDocuments();
@@ -121,8 +119,11 @@ export const listTask = async (req, res) => {
      nextPage: page < totalPages ? parseInt(page) + 1 : null,
      prevPage: page > 1 ? parseInt(page) - 1 : null,
    };
-  const result=[...tasks,pagination]
-   res.status(200).json({message:"Tasks Fetched Successfully",result});
+   const result = {
+    tasks,
+    pagination,
+  };
+     res.status(200).json({message:"Tasks Fetched Successfully",result});
   } catch (e) {
     console.log(e);
     res.status(400).json({ error: "Failed to Fetch tasks" });
