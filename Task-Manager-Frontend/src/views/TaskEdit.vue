@@ -52,7 +52,7 @@ onMounted(async () => {
 })
 
 async function submitTask() {
-    const update = await editTask(router.currentRoute.value.params.id)
+    const update = await editTask(router.currentRoute.value.params.id,task.value)
     console.log(update)
     if (update) {
         router.push('/tasks')
