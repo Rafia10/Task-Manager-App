@@ -38,7 +38,7 @@ onMounted(async () => {
   });
 
   socket.on('taskUpdated', (updatedData) => {
-    console.log('!!!!!!!', updatedData);
+    console.log('!!!!!!!', updatedData._id);
     if (updatedData._id) {
       const index = TasksData.value.findIndex(
         (item) => item._id === updatedData._id
@@ -48,12 +48,16 @@ onMounted(async () => {
       } else {
         TasksData.value.push(updatedData);
       }
-    } else {
-      TasksData.value = TasksData.value.filter(
-        (item) => item._id !== updatedData._id
-      );
-    }
+    } 
   });
+  socket.on('taskDeleted', (deletedData) => {
+  console.log('deletedId',deletedData?._id)
+  const index = TasksData.value.findIndex((item) => item._id === deletedData._id);
+  console.log(index)
+  if (index !== -1) {
+    TasksData.value.splice(index, 1);
+  }
+});
 });
 
 async function handleView(id) {

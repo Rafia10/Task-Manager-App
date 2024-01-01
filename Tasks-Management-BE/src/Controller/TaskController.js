@@ -18,7 +18,7 @@ export const updateTask = async (req, res) => {
     const bodyParams = req.body;
     const Id = req.params.id;
     const updateTask = await Task.findOneAndUpdate(
-      { _id: { $ne: new mongoose.Types.ObjectId(Id) } },
+      { _id: Id },
       {
         $set: bodyParams,
       },
@@ -42,14 +42,16 @@ export const updateTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   try {
     const Id = req.params.id;
+    if (!Id) {
+      res.status(400).json({ message: "Id is required" });
+      return;
+    }
+
     const task = await Task.findOneAndDelete({
       _id: Id,
     });
-    if(!Id){
-      res.status(400).json({message:"Id is required"})
-      return
-    }
-    io.emit('taskUpdated',task)
+
+    io.emit('taskDeleted',{ _id: Id })
 
     res.status(201).json({ message: "Task Deleted Successfully", data: task });
   } catch (e) {
