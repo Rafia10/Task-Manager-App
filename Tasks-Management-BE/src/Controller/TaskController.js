@@ -78,7 +78,7 @@ export const viewTask = async (req, res) => {
 };
 
 export const listTask = async (req, res) => {
-    const { page = 1, limit = 10 } = req.query;
+    const { page, limit = 10 } = req.query;
   try {
     const tasks = await Task.aggregate(
       [
@@ -99,9 +99,11 @@ export const listTask = async (req, res) => {
       }
 
     },
-    
     {
         $unwind:"$userInfo"
+    },
+    {
+      $skip: (parseInt(page) - 1) * parseInt(limit),
     },
     
     { $limit: parseInt(limit) }
