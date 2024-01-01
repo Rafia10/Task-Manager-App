@@ -8,16 +8,21 @@ import io from 'socket.io-client';
 import { useRouter } from 'vue-router';
 const TasksData = ref([]);
 const Pagination = ref({});
-const page = 1;
+const currentPage = ref(1);
+const handleNextPage =async() => {
+      currentPage.value += 1;
+      await getTasksData(currentPage.value)
+    };
 
-async function loadPage(page) {
-  page.value = page;
-  const newData = await getTasksData(page.value);
-  console.log(newData);
-}
+    const handlePrevPage = async() => {
+      if (currentPage.value > 1) {
+        currentPage.value -= 1;
+      await getTasksData(currentPage.value)
+      }
+    };
 
 onMounted(async () => {
-  const tasksData = await getTasksData(page.value);
+  const tasksData = await getTasksData(currentPage.value);
   TasksData.value = tasksData.tasks;
   Pagination.value = tasksData.pagination;
 
@@ -275,14 +280,14 @@ async function handleDelete(Id) {
 
               <div class="inline-flex mt-2 xs:mt-0">
                 <button
-                  @click="loadPage(Pagination.prevPage)"
+                  @click="handlePrevPage"
                   :disabled="!Pagination?.hasPrevPage"
                   class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-l hover:bg-gray-400"
                 >
                   Prev
                 </button>
                 <button
-                  @click="loadPage(Pagination.nextPage)"
+                  @click="handleNextPage"
                   :disabled="!Pagination?.hasNextPage"
                   class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-r hover:bg-gray-400"
                 >

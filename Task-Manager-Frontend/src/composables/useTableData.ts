@@ -59,11 +59,11 @@ export async function userLogin(data:IUserData) {
   }
 }
 
-export async function getTasksData(page=1,limit=2) {
+export async function getTasksData(page=1) {
   try {
     const token=localStorage.getItem('token')
     if(token){
-      const tasks = await api.get(`task/list-tasks?page=${page}&limit=${limit}`,{headers:{
+      const tasks = await api.get(`task/list-tasks?page=${page}`,{headers:{
        Authorization:`Bearer ${token}`
       }})
       console.log(tasks.data.result)
