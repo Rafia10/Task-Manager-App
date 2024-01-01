@@ -117,7 +117,7 @@ export const listTask = async (req, res) => {
      page: parseInt(page),
      limit: parseInt(limit),
      hasNextPage: page < totalPages,
-     hasPrevPage: page < 1,
+     hasPrevPage: page > 1,
      nextPage: page < totalPages ? parseInt(page) + 1 : null,
      prevPage: page > 1 ? parseInt(page) - 1 : null,
    };
