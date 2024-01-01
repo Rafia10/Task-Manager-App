@@ -59,7 +59,7 @@ export async function userLogin(data:IUserData) {
   }
 }
 
-export async function getTasksData(page=1) {
+export async function getTasksData(page) {
   try {
     const token=localStorage.getItem('token')
     if(token){

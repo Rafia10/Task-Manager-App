@@ -37,7 +37,7 @@ const statuses = ref([
     },
     {
         id: "3",
-        value: "DONE"
+        value: "COMPLETED"
     }
 ])
 onMounted(async () => {
