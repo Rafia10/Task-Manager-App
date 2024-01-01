@@ -5,29 +5,30 @@ import Swal from 'sweetalert2';
 import { getTasksData, deleteData } from '../composables/useTableData';
 import router from '../router';
 import io from 'socket.io-client';
-import { useRouter } from 'vue-router';
 const TasksData = ref([]);
 const Pagination = ref({});
 const currentPage = ref(1);
-const handleNextPage =async() => {
-      currentPage.value += 1;
-      await getTasksData(currentPage.value)
-    };
-
-    const handlePrevPage = async() => {
-      if (currentPage.value > 1) {
-        currentPage.value -= 1;
-      await getTasksData(currentPage.value)
-      }
-    };
-
-onMounted(async () => {
-  const tasksData = await getTasksData(currentPage.value);
+const getUpdatedTasksData = async (page) => {
+  const tasksData = await getTasksData(page);
   TasksData.value = tasksData.tasks;
   Pagination.value = tasksData.pagination;
+};
 
-  console.log('Data:', TasksData.value);
-  console.log('Pagination:', Pagination.value);
+const handleNextPage = async () => {
+  currentPage.value += 1;
+  await getUpdatedTasksData(currentPage.value);
+};
+
+const handlePrevPage = async () => {
+  if (currentPage.value > 1) {
+    currentPage.value -= 1;
+    await getUpdatedTasksData(currentPage.value);
+  }
+};
+
+onMounted(async () => {
+  await getUpdatedTasksData(currentPage.value);
+
   const socket = io('http://localhost:3333', {
     transports: ['websocket'],
   });
@@ -81,7 +82,7 @@ async function handleDelete(Id) {
 }
 </script>
 
-<template>
+<template setup>
   <div>
     <h3 class="text-3xl font-medium text-gray-700">Tasks</h3>
 
