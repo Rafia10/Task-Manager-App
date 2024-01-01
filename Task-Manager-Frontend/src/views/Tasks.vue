@@ -82,7 +82,7 @@ async function handleDelete(Id) {
 }
 </script>
 
-<template setup>
+<template>
   <div>
     <h3 class="text-3xl font-medium text-gray-700">Tasks</h3>
 
