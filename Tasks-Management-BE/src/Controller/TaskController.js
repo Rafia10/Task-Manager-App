@@ -78,7 +78,7 @@ export const viewTask = async (req, res) => {
 };
 
 export const listTask = async (req, res) => {
-    const { page = 1, limit = 2 } = req.query;
+    const { page = 1, limit = 10 } = req.query;
   try {
     const tasks = await Task.aggregate(
       [
@@ -115,7 +115,7 @@ export const listTask = async (req, res) => {
      page: parseInt(page),
      limit: parseInt(limit),
      hasNextPage: page < totalPages,
-     hasPrevPage: page > 1,
+     hasPrevPage: page < 1,
      nextPage: page < totalPages ? parseInt(page) + 1 : null,
      prevPage: page > 1 ? parseInt(page) - 1 : null,
    };
